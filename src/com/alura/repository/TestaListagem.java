@@ -1,9 +1,9 @@
 package com.alura.repository;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 
 public class TestaListagem {
@@ -13,8 +13,8 @@ public class TestaListagem {
 	     ConnectionFactory criaConexao = new ConnectionFactory();     
 	     Connection connection = criaConexao.recuperarConexao();
 	     
-	     Statement stm = connection.createStatement();
-	     stm.execute("select ID, NOME, DESCRICAO FROM produto");
+	     PreparedStatement stm = connection.prepareStatement("select ID, NOME, DESCRICAO FROM produto");
+	     stm.execute();
 	     
 	     ResultSet rst = stm.getResultSet();
 	     

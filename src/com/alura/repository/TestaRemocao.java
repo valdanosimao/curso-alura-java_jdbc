@@ -1,8 +1,8 @@
 package com.alura.repository;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class TestaRemocao {
 
@@ -11,8 +11,9 @@ public class TestaRemocao {
 		ConnectionFactory factory = new ConnectionFactory();
 		Connection connection = factory.recuperarConexao();
 		
-		Statement stm = connection.createStatement(); 
-		stm.execute("DELETE FROM produto WHERE ID = 4"); //where id = , >, < 
+		PreparedStatement stm = connection.prepareStatement("DELETE FROM produto WHERE ID = ?");  //where id = , >, < 
+		stm.setInt(1, 2);
+		stm.execute();
 		
 		Integer linhasModificadas = stm.getUpdateCount();
 		
