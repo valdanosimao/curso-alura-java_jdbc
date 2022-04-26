@@ -6,23 +6,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class TestaInsercao {
-	
+
 	public static void main(String[] args) throws SQLException {
-		
-		//usei para usar o método recuperar conexão
+
+		// usei para usar o método recuperar conexão
 		ConnectionFactory factory = new ConnectionFactory();
 		Connection connection = factory.recuperarConexao();
-		
+
 		Statement stm = connection.createStatement();
-		stm.execute("INSERT INTO produto (nome, descricao) VALUES ('Dvd','Dvd Philco')"
-				, Statement.RETURN_GENERATED_KEYS);
-		
+		stm.execute("INSERT INTO produto (nome, descricao) VALUES ('Dvd','Dvd Philco')",
+				Statement.RETURN_GENERATED_KEYS);
+
 		ResultSet rst = stm.getGeneratedKeys();
-		while(rst.next()) {
+		while (rst.next()) {
 			Integer id = rst.getInt(1);
 			System.out.println("O id criado foi: " + id);
 		}
-		
+
 	}
 
 }
