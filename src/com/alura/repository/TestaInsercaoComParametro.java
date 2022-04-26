@@ -8,29 +8,43 @@ import java.sql.Statement;
 
 public class TestaInsercaoComParametro {
 	
-public static void main(String[] args) throws SQLException {
-	
-		String nome = "Geladeira";
-		String descricao = "Geladeira Preta";		
+public static void main(String[] args) throws SQLException {	
+			
 		
 		ConnectionFactory factory = new ConnectionFactory();
 		Connection connection = factory.recuperarConexao();
+		connection.setAutoCommit(false);
 		
-		//para evitar Sql injection, é muito importante usar o PrepareStatement, sendo assim NÂO usar Statement.
-		
-		PreparedStatement stm = connection.prepareStatement("INSERT INTO produto (nome, descricao) VALUES (? , ?)", Statement.RETURN_GENERATED_KEYS);
-		
-		stm.setString(1, nome);
-		stm.setString(2, descricao);
-		
-		stm.execute();
-		
-		ResultSet rst = stm.getGeneratedKeys();
-		while(rst.next()) {
-			Integer id = rst.getInt(1);
-			System.out.println("O id criado foi: " + id);
-		}
+		try {
+			PreparedStatement stm = connection.prepareStatement("INSERT INTO produto (nome, descricao) VALUES (? , ?)", Statement.RETURN_GENERATED_KEYS);
+			
+			
+			adcionarVariavel("SmartTV","45 Polegadas", stm);
+			adcionarVariavel("Radio","Radio de bateria", stm);	
+			
+			connection.commit();
+					
+			stm.close();
+			connection.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("RollBack Executado");
+			connection.rollback();
+		}			
 		
 	}
+
+private static void adcionarVariavel(String nome, String descricao, PreparedStatement stm) throws SQLException {
+	stm.setString(1, nome);
+	stm.setString(2, descricao);	
+	
+	stm.execute();
+	
+	ResultSet rst = stm.getGeneratedKeys();
+	while(rst.next()) {
+		Integer id = rst.getInt(1);
+		System.out.println("O id criado foi: " + id);
+	}
+ }
 
 }
