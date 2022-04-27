@@ -11,7 +11,7 @@ public class TestaRemocao {
 		ConnectionFactory factory = new ConnectionFactory();
 		Connection connection = factory.recuperarConexao();
 
-		PreparedStatement stm = connection.prepareStatement("DELETE FROM produto WHERE ID = ?"); // where id = , >, <
+		PreparedStatement stm = connection.prepareStatement("DELETE FROM produto WHERE ID = 2"); // where id = , >, <
 		stm.setInt(1, 2);
 		stm.execute();
 

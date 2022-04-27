@@ -1,11 +1,11 @@
-package com.alura.modelo;
+package com.alura.repository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 import com.alura.dao.ProdutoDao;
-import com.alura.repository.ConnectionFactory;
+import com.alura.modelo.Produto;
 
 /**
  * @author val

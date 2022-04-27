@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alura.modelo.Categoria;
 import com.alura.modelo.Produto;
 
 public class ProdutoDao {
@@ -18,6 +19,11 @@ public class ProdutoDao {
 		this.connection = connection;
 	}
 
+	/**
+	 * Método que salvar um produto
+	 * @param produto
+	 * @throws SQLException
+	 */
 	public void salvar(Produto produto) throws SQLException {
 		String sql = "INSERT INTO produto (NOME, DESCRICAO) VALUES (?, ?)";
 
@@ -36,6 +42,9 @@ public class ProdutoDao {
 		}
 	}
 
+	/**
+	 * Método que lista os produtos
+	 */
 	public List<Produto> listar() throws SQLException {
 		List<Produto> produtos = new ArrayList<>();
 
@@ -53,6 +62,29 @@ public class ProdutoDao {
 			}
 		}
 		return produtos;
+	}
+
+	public List<Produto> buscar(Categoria ct) throws SQLException {
+		
+		List<Produto> produtos = new ArrayList<>();
+
+		String sql = "SELECT ID, NOME, DESCRICAO FROM produto WHERE CATEGORIA_ID = ?";
+
+		try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+			pstm.setInt(1, ct.getId());
+			pstm.execute();
+
+			try (ResultSet rst = pstm.getResultSet()) {
+				while (rst.next()) {
+					Produto produto = new Produto(rst.getInt(1), rst.getString(2), rst.getString(3));
+
+					produtos.add(produto);
+				}
+			}
+		}
+		return produtos;
+		
+		
 	}
 
 }
