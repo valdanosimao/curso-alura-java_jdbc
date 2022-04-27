@@ -2,6 +2,7 @@ package com.alura.modelo;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.alura.dao.ProdutoDao;
 import com.alura.repository.ConnectionFactory;
@@ -20,8 +21,8 @@ public class TestaInsercaoDeProduto {
 			ProdutoDao produtoDao = new ProdutoDao(connection);
 			produtoDao.salvar(comoda);
 			
-			//Lista = persistenciaProduto.listar();
-			
+			List<Produto> listaDeProdutos = produtoDao.listar();
+			listaDeProdutos.stream().forEach(lp -> System.out.println(lp));
 		}
 
 		System.out.println(comoda);
